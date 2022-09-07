@@ -1,6 +1,11 @@
 # Alpinezy API v2
 
 ## Configuration
+### Installer les différents module
+**Requière NodeJS**
+```sh
+npm i
+```
 ### fichier .env dans le dossier config
 ```md
 # Token secret pour les token de connexion
