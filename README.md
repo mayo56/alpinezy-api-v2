@@ -16,3 +16,9 @@ DB_USER="user"
 DB_URL="url"
 DB_PASSWORD="password"
 ```
+
+# Démarrer l'api
+Très simple !
+```sh
+npm run start
+```
