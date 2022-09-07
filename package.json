@@ -4,7 +4,8 @@
   "description": "API Alpinezy",
   "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node server.ts"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,12 @@
   },
   "homepage": "https://github.com/mayo56/alpinezy-api-v2#readme",
   "dependencies": {
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13"
   }
 }
