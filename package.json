@@ -1,0 +1,23 @@
+{
+  "name": "alpinezy-api",
+  "version": "2.0.0",
+  "description": "API Alpinezy",
+  "main": "server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mayo56/alpinezy-api-v2.git"
+  },
+  "author": "Mayo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mayo56/alpinezy-api-v2/issues"
+  },
+  "homepage": "https://github.com/mayo56/alpinezy-api-v2#readme",
+  "dependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.2"
+  }
+}
