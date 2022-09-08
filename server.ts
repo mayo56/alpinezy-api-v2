@@ -5,20 +5,23 @@ const app = express();
 const httpServer = http.createServer(app);
 
 
+/**
+ * Partie WebSocket
+ */
 const io = new Server(httpServer);
-
 io.on("connection", (socket) => {
-    console.log("One connexion")
-});
-
-app.get('/usr', function (req, res) {
-    const lol = req.query.id;
-    res.header('Content-type', 'text/html');
-    return res.end('<h1>Hello, Secure World!' + lol + '</h1>');
+    console.log("One connexion");
 });
 
 
-//connect server
+/**
+ * Partie Rest API
+ */
+app.use(express.json({limit:"1GB"}));
+app.use();
+
+
+//Serveur connexion
 httpServer.listen(3000, () => {
-    console.log("App is ready")
+    console.log("App is ready");
 });

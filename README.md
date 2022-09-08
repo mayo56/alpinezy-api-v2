@@ -7,6 +7,7 @@
 npm i
 ```
 ### fichier .env dans le dossier config
+"**/config/.env**"
 ```md
 # Token secret pour les token de connexion
 TOKEN_JWT="token"
