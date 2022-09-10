@@ -4,3 +4,4 @@ export const user = express();
 
 
 user.get('', userController.user);
+user.post("/signin", userController.signin)

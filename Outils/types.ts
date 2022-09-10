@@ -54,3 +54,21 @@ export type Message = {
         message_author: User | null;
     };
 };
+
+/**
+ * Type pour les connexions (singin)
+ */
+export type SigninBody = {
+    email: string; password: string;
+};
+export type Signin = {
+    email: string; password: string;
+    username: string; user_code: string;
+}
+
+/**
+ * Type pour les inscription (signup)
+ */
+export type SignupBody = {
+    username: string;
+}

@@ -1,6 +1,8 @@
 import express from "express";
 import request from "../../Outils/pg";
-import { Flags, User } from "../../Outils/types";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { Flags, Signin, SigninBody, User } from "../../Outils/types";
 
 export const userController = {
     user: async (req: express.Request, res: express.Response) => {
@@ -29,5 +31,29 @@ export const userController = {
         reqUser.flags_list = reqFlags; //Attribution des badges dans le json
         return res.status(200).send(reqUser);
     },
-    
+    signin: async (req: express.Request, res: express.Response) => {
+        const body = req.body as SigninBody;
+        //Si pas de body
+        if (!body.email || !body.password) return res.sendStatus(400);
+
+        //Vérification de l'adress e-mail
+        //Requete à la db
+        const reqEmailUser = (await request("select username, user_code, email, password from users where email='" + body.email + "'")).rows[0] as Signin;
+        //Si pas l'utilisateur n'existe pas
+        if (!reqEmailUser) return res.sendStatus(401);
+
+        //Si l'utilisateur existe
+        bcrypt.compare(body.password, reqEmailUser.password, async (err, result) => {
+            if (err) return res.sendStatus(500);
+            //resultat sur les mots de passe
+            if (!result) return res.sendStatus(401);
+
+            //Si le mdp est bon
+            const token = jwt.sign({
+                username: reqEmailUser.username,
+                user_code: reqEmailUser.user_code,
+            }, process.env.TOKEN_JWT as string);
+            return res.send(201).send({ token });
+        });
+    }
 };
