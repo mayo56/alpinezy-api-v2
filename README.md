@@ -13,9 +13,10 @@ npm i
 TOKEN_JWT="token"
 
 # Accès db
-DB_USER="user"
-DB_URL="url"
-DB_PASSWORD="password"
+DB_USER="User"
+DB_HOST="url"
+DB_DATABASE="nom de base de donnée"
+DB_PASSWORD="mot de passe"
 ```
 
 # Démarrer l'api
