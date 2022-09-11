@@ -70,5 +70,6 @@ export type Signin = {
  * Type pour les inscription (signup)
  */
 export type SignupBody = {
-    username: string;
+    username: string; user_code: string;
+    email: string; password: string;
 }

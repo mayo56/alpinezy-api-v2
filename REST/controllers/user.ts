@@ -2,7 +2,7 @@ import express from "express";
 import request from "../../Outils/pg";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Flags, Signin, SigninBody, User } from "../../Outils/types";
+import { Flags, Signin, SigninBody, SignupBody, User } from "../../Outils/types";
 
 export const userController = {
     user: async (req: express.Request, res: express.Response) => {
@@ -55,5 +55,42 @@ export const userController = {
             }, process.env.TOKEN_JWT as string);
             return res.send(201).send({ token });
         });
-    }
+    },
+    signup: async (req: express.Request, res: express.Response) => {
+        const body = req.body as SignupBody;
+        //Si pas de body
+        if (!body.email || !body.password || !body.user_code || !body.username) return res.sendStatus(400);
+
+        //Si le user_code n'est pas correct
+        if (isNaN(Number(body.user_code)) || body.user_code.length > 4 || body.user_code.length < 4) return res.status(401).send("user_code invalid");
+
+        //Vérification du pseudo et du user_code
+        const reqUser = (await request(`select * from users where "username"='${body.username}' and "user_code"='${body.user_code}'`)).rows;
+        if (reqUser[0]) return res.status(401).send("username and user_code already used");
+
+        //vérification de formation de l'email
+        if (!(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(body.email)) return res.status(401).send("email invalid");
+
+        //encryptage du mot de passe + envoie du token
+        bcrypt.hash(body.password, 10, async (err, hash) => {
+            if (err) return res.sendStatus(500);
+
+            //récupération du dernière id
+            const last_user_id: string = (await request("select max(user_id) as user_id from users")).rows[0].user_id;
+
+            //inscription de l'utilisateur
+            await request(
+                `insert into users values ('${Number(last_user_id) + 1}', '${body.username}', '${body.user_code}',` +
+                `false, '', '', '', '','[]','${body.email}', '${hash}');`
+            );
+
+            //envoie du token
+            const token = jwt.sign({
+                username: body.username,
+                user_code: body.user_code,
+            }, process.env.TOKEN_JWT as string);
+
+            return res.status(200).send({ token });
+        });
+    },
 };
