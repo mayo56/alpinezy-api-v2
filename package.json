@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mayo56/alpinezy-api-v2#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
