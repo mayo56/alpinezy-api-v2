@@ -53,7 +53,7 @@ export const userController = {
                 username: reqEmailUser.username,
                 user_code: reqEmailUser.user_code,
             }, process.env.TOKEN_JWT as string);
-            return res.send(201).send({ token });
+            return res.status(201).send({ token });
         });
     },
     signup: async (req: express.Request, res: express.Response) => {

@@ -10,9 +10,9 @@ const httpServer = http.createServer(app);
 /**
  * Partie WebSocket
  */
-const io = new Server(httpServer);
+const io = new Server(httpServer, {"cors": {"origin":"*"}});
 io.on("connection", (socket) => {
-
+console.log("connected:", socket.id)
 });
 
 
