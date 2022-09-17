@@ -10,7 +10,20 @@ const httpServer = http.createServer(app);
 /**
  * Partie WebSocket
  */
+import jwt from "jsonwebtoken";
 const io = new Server(httpServer, { "cors": { "origin": "*" } });
+io.use((socket, next) => {
+    const token = socket.handshake.auth.token;
+    try {
+        const user = jwt.verify(token, process.env.TOKEN_JWT as string)
+        console.log(user);
+    } catch (err) {
+        const error = new Error("Not Authorized")
+        console.log(error)
+        return next(error)
+    }
+    next()
+})
 io.on("connection", (socket) => {
     console.log("connected:", socket.id)
 });
