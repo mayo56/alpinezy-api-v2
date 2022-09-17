@@ -66,12 +66,12 @@ export const userController = {
 
         //Vérification du pseudo et du user_code
         const reqUser = (await request(`select * from users where "username"='${body.username}' and "user_code"='${body.user_code}'`)).rows;
-        if (reqUser[0]) return res.status(401).send("username and user_code already used");
+        if (reqUser[0]) return res.status(401).send("pseudo et code utilisateur déjà utilisé");
 
         //vérification de formation de l'email
         if (!(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(body.email)) return res.status(401).send("email invalid");
         const reqEmail = (await request(`select * from users where "email"='${body.email}'`)).rows
-        if (reqEmail[0]) return res.status(401).send("This e-mail is already used")
+        if (reqEmail[0]) return res.status(401).send("Cette email est déjà utilisé")
 
         //encryptage du mot de passe + envoie du token
         bcrypt.hash(body.password, 10, async (err, hash) => {
