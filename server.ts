@@ -10,9 +10,9 @@ const httpServer = http.createServer(app);
 /**
  * Partie WebSocket
  */
-const io = new Server(httpServer, {"cors": {"origin":"*"}});
+const io = new Server(httpServer, { "cors": { "origin": "*" } });
 io.on("connection", (socket) => {
-console.log("connected:", socket.id)
+    console.log("connected:", socket.id)
 });
 
 
@@ -20,7 +20,7 @@ console.log("connected:", socket.id)
  * Partie Rest API
  */
 import { user } from "./REST/routes/user";
-app.use(cors({"origin":"*"}))
+app.use(cors({ "origin": "*" }))
 app.use(express.json({ limit: "1GB" }));
 app.use(express.urlencoded({ extended: true }));
 app.use("/user", user);

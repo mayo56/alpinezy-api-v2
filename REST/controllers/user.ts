@@ -70,6 +70,8 @@ export const userController = {
 
         //vérification de formation de l'email
         if (!(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(body.email)) return res.status(401).send("email invalid");
+        const reqEmail = (await request(`select * from users where "email"='${body.email}'`)).rows
+        if (reqEmail[0]) return res.status(401).send("This e-mail is already used")
 
         //encryptage du mot de passe + envoie du token
         bcrypt.hash(body.password, 10, async (err, hash) => {
