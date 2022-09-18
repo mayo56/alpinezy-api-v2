@@ -15,8 +15,9 @@ const io = new Server(httpServer, { "cors": { "origin": "*" } });
 io.use((socket, next) => {
     const token = socket.handshake.auth.token;
     try {
-        const user = jwt.verify(token, process.env.TOKEN_JWT as string)
-        console.log(user);
+        const user = jwt.verify(token, process.env.TOKEN_JWT as string) as {user_id:string, username:string, user_code:string}
+        console.log(user)
+        socket.join([`${user.user_id}`])
     } catch (err) {
         const error = new Error("Not Authorized")
         console.log(error)

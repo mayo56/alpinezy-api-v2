@@ -62,6 +62,7 @@ export type SigninBody = {
     email: string; password: string;
 };
 export type Signin = {
+    user_id:string;
     email: string; password: string;
     username: string; user_code: string;
 }

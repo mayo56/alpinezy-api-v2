@@ -38,7 +38,7 @@ export const userController = {
 
         //Vérification de l'adress e-mail
         //Requete à la db
-        const reqEmailUser = (await request("select username, user_code, email, password from users where email='" + body.email + "'")).rows[0] as Signin;
+        const reqEmailUser = (await request("select username, user_code, email, password, user_id from users where email='" + body.email + "'")).rows[0] as Signin;
         //Si pas l'utilisateur n'existe pas
         if (!reqEmailUser) return res.sendStatus(401);
 
@@ -52,6 +52,7 @@ export const userController = {
             const token = jwt.sign({
                 username: reqEmailUser.username,
                 user_code: reqEmailUser.user_code,
+                user_id: reqEmailUser.user_id,
             }, process.env.TOKEN_JWT as string);
             return res.status(201).send({ token });
         });
@@ -90,6 +91,7 @@ export const userController = {
             const token = jwt.sign({
                 username: body.username,
                 user_code: body.user_code,
+                user_id:`${Number(last_user_id) + 1}`,
             }, process.env.TOKEN_JWT as string);
 
             return res.status(200).send({ token });
