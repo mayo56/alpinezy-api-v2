@@ -7,6 +7,7 @@ export type User = {
     system: boolean;
     avatar_url: string; avatar_id: string;
     banner_url: string; banner_id: string;
+    server_list:string, friends_list:string;
     flags_list: Array<Flags> | Array<string>;
 };
 

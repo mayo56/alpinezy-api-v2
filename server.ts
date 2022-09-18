@@ -12,12 +12,14 @@ const httpServer = http.createServer(app);
  */
 import jwt from "jsonwebtoken";
 const io = new Server(httpServer, { "cors": { "origin": "*" } });
+
+//Vérif du token
 io.use((socket, next) => {
     const token = socket.handshake.auth.token;
     try {
         const user = jwt.verify(token, process.env.TOKEN_JWT as string) as {user_id:string, username:string, user_code:string}
         console.log(user)
-        socket.join([`${user.user_id}`])
+        socket.join(`${user.user_id}`)
     } catch (err) {
         const error = new Error("Not Authorized")
         console.log(error)
@@ -25,15 +27,20 @@ io.use((socket, next) => {
     }
     next()
 })
-io.on("connection", (socket) => {
-    console.log("connected:", socket.id)
-});
+//Évènement lors de la connection au WS
+io.on("connection", (socket) => connectEvent(socket, io));
+
+
+
+
+
 
 
 /**
  * Partie Rest API
  */
 import { user } from "./REST/routes/user";
+import { connectEvent } from "./WebSocket/WSconnexion";
 app.use(cors({ "origin": "*" }))
 app.use(express.json({ limit: "1GB" }));
 app.use(express.urlencoded({ extended: true }));
